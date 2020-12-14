@@ -1,5 +1,6 @@
 const API_KEY = 'e2917b918d72f580babe40b7497ee38f'
 const API_BASE = 'https://api.themoviedb.org/3'
+const API_BASE_IMG = 'https://image.tmdb.org/t/p'
 
 /**
  *  - originais da netflix
@@ -66,5 +67,24 @@ export default {
     },
     getMovieInfo: async (movieId, type) => {
         let info = {}
+
+        if (movieId) {
+            switch (type) {
+                case 'movie':
+                    info = await baseFetch(`/movie/${movieId}?language=pt-BR?api_key=${API_KEY}`)
+                    break;
+                case 'tv':
+                    info = await baseFetch(`/tv/${movieId}?language=pt-BR&api_key=${API_KEY}`)
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return info
+    },
+    baseImgFetch: (size, imagePath) => {
+        return `${API_BASE_IMG}${size}${imagePath}`
     }
+
 }
